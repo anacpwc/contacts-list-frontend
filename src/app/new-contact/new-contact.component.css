@@ -1,0 +1,56 @@
+/* Impede quebra de linha nas células da tabela */
+.table th,
+.table td {
+  white-space: nowrap;
+}
+
+/* Animações suaves nos botões */
+.btn {
+  transition: transform 0.1s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+/* Ao passar o mouse, botão interage */
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Bordas arredondadas e overflow oculto nas tabelas responsivas */
+.table-responsive {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Rótulos dos formulários  */
+.form-label {
+  font-weight: 600;
+  color: #212529;
+}
+
+/* Cabeçalho da tabela estilizado */
+.table thead th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Linhas ímpares da tabela com cor de fundo clara */
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Efeito hover na tabela */
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Retira sombra azul padrão no focus dos inputs e define borda azul clara */
+.input-group .form-control:focus {
+  box-shadow: none;
+  border-color: #86b7fe;
+}
+
+/* Cor de fundo clara para textos dentro do input group */
+.input-group-text {
+  background-color: #f8f9fa;
+}

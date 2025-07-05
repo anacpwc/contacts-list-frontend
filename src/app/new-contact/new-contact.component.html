@@ -1,0 +1,200 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+
+      <div class="mb-3">
+        <a routerLink="/home"
+           class="btn btn-outline-secondary btn-sm align-items-center gap-1 px-2 shadow-sm"
+           style="display: inline-flex;">
+          <i class="bi bi-arrow-left"></i>⇦ Voltar para o Início
+        </a>
+      </div>
+
+      <div class="mb-3">
+        <a routerLink="/contacts"
+           class="btn btn-outline-secondary btn-sm align-items-center gap-1 px-2 shadow-sm"
+           style="display: inline-flex;">
+          <i class="bi bi-arrow-left"></i>Lista de Contatos
+        </a>
+      </div>
+
+      <!-- Formulário de adicionar ou editar contato -->
+      <form [formGroup]="formGroupContact"
+            class="bg-white p-4 rounded shadow-sm border"
+            (ngSubmit)="isEditing ? update($event) : save($event)">
+
+        <!-- Editar Contato ou Novo Contato -->
+        <h5 class="mb-4 fw-semibold" style="color: #000;">
+          {{ isEditing ? 'Editar Contato' : 'Novo Contato' }}
+        </h5>
+
+        <div class="row g-3">
+          <!-- Campo Nome -->
+          <div class="col-md-6">
+            <label [ngClass]="{'text-danger': formGroupContact.get('name')?.invalid && formGroupContact.get('name')?.touched}"
+                   for="inputName"
+                   class="form-label">
+              Nome *
+            </label>
+            <input formControlName="name" type="text" class="form-control" id="inputName" />
+          </div>
+
+          <!-- Campo Número -->
+          <div class="col-md-6">
+            <label [ngClass]="{'text-danger': formGroupContact.get('number')?.invalid && formGroupContact.get('number')?.touched}"
+                   for="inputNumber"
+                   class="form-label">
+              Número *
+            </label>
+            <input formControlName="number" type="text" maxlength="15" class="form-control" id="inputNumber" />
+            <div *ngIf="numeroDuplicado" class="text-danger small mt-1">Este número já está cadastrado.</div>
+          </div>
+
+          <!-- Campo Email -->
+          <div class="col-md-6">
+            <label [ngClass]="{'text-danger': formGroupContact.get('email')?.invalid && formGroupContact.get('email')?.touched}"
+                   for="inputEmail"
+                   class="form-label">
+              Email *
+            </label>
+            <input formControlName="email" type="email" class="form-control" id="inputEmail" />
+            <div *ngIf="emailDuplicado" class="text-danger small mt-1">Este email já está cadastrado.</div>
+            <div *ngIf="formGroupContact.get('email')?.errors?.['email'] && formGroupContact.get('email')?.touched" class="text-danger small mt-1">Email inválido.</div>
+          </div>
+
+          <!-- Campo Categoria -->
+          <div class="col-md-6">
+            <label [ngClass]="{'text-danger': formGroupContact.get('category')?.invalid && formGroupContact.get('category')?.touched}"
+                   for="inputCategory"
+                   class="form-label">
+              Categoria *
+            </label>
+            <select formControlName="category" class="form-select" id="inputCategory">
+              <option value="">Selecione</option>
+              <option value="Família">Família</option>
+              <option value="Trabalho">Trabalho</option>
+              <option value="Faculdade">Faculdade</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+
+          <!-- Campo Cidade -->
+          <div class="col-md-6">
+            <label for="inputCity" class="form-label">Cidade</label>
+            <input formControlName="city" type="text" class="form-control" id="inputCity" />
+          </div>
+
+          <!-- Campo Ocupação -->
+          <div class="col-md-6">
+            <label for="inputOccupation" class="form-label">Ocupação</label>
+            <input formControlName="occupation" type="text" class="form-control" id="inputOccupation" />
+          </div>
+
+          <!-- Campo Data de Nascimento -->
+          <div class="col-md-6">
+            <label for="inputBirthDate" class="form-label">Data de Nascimento</label>
+            <input formControlName="birthDate" type="date" class="form-control" id="inputBirthDate" />
+          </div>
+
+          <!-- Checkboxes: Favorito e Contato de Emergência -->
+          <div class="col-12 d-flex gap-3 mt-2">
+            <div class="form-check">
+              <input formControlName="isFavorite" type="checkbox" class="form-check-input" id="inputFavorite" />
+              <label class="form-check-label" for="inputFavorite">Favorito</label>
+            </div>
+            <div class="form-check">
+              <input formControlName="emergency" type="checkbox" class="form-check-input" id="inputEmergency" />
+              <label class="form-check-label" for="inputEmergency">Contato de Emergência</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mensagem de erro caso campos obrigatórios não estejam preenchidos -->
+        <div *ngIf="campoVazio" class="text-danger mt-3">
+          Por favor, preencha todos os campos obrigatórios antes de salvar.
+        </div>
+
+        <!-- Mensagem de sucesso ao salvar contato -->
+        <div *ngIf="sucesso" class="alert alert-success mt-3">
+          Contato salvo com sucesso!
+        </div>
+
+        <!-- Botões de ação -->
+        <div class="mt-4 d-flex gap-2">
+          <button type="submit" class="btn btn-success" *ngIf="!isEditing">
+            <i class="bi bi-save"></i> Salvar
+          </button>
+          <button type="submit" class="btn btn-primary" *ngIf="isEditing">
+            <i class="bi bi-pencil-square"></i> Atualizar
+          </button>
+          <button type="button" class="btn btn-outline-secondary" (click)="clear()">
+            <i class="bi bi-x-circle"></i> Cancelar
+          </button>
+        </div>
+      </form>
+
+      <!-- Barra de pesquisa -->
+      <div class="input-group mb-4 mt-4 shadow-sm rounded">
+        <input type="text" class="form-control" placeholder="Pesquisar por nome, número, email ou categoria"
+               [(ngModel)]="searchText"
+               (input)="onFilterChange(searchText)"
+               name="searchText" />
+        <button class="btn btn-secondary" (click)="onSearchClick()">
+          <i class="bi bi-search"></i> Procurar
+        </button>
+        <button class="btn btn-outline-secondary" (click)="clearFilter()">
+          <i class="bi bi-x-circle"></i> Limpar
+        </button>
+      </div>
+
+      <!-- Tabela de contatos -->
+      <div class="table-responsive mt-5 rounded-3 overflow-auto shadow-sm">
+        <table class="table table-striped align-middle table-hover" style="min-width: 900px;">
+          <thead class="text-center" style="background-color: #f1f3f5; color: #495057;">
+            <tr>
+              <th>Nome</th>
+              <th>Número</th>
+              <th>Email</th>
+              <th>Categoria</th>
+              <th>Favorito</th>
+              <th>Cidade</th>
+              <th>Ocupação</th>
+              <th>Data de Nascimento</th>
+              <th>Emergência</th>
+              <th class="text-center">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of filteredContacts">
+              <td class="text-nowrap">{{ c.name || 'Não informado' }}</td>
+              <td class="text-nowrap">{{ formatPhone(c.number) || 'Não informado' }}</td>
+              <td class="text-nowrap">{{ c.email || 'Não informado' }}</td>
+              <td class="text-nowrap">{{ c.category || 'Não informado' }}</td>
+              <td class="text-center">
+                <span *ngIf="c.isFavorite" class="text-warning fs-5">★</span>
+                <span *ngIf="!c.isFavorite" class="text-muted fs-5">☆</span>
+              </td>
+              <td class="text-nowrap">{{ c.city || 'Não informado' }}</td>
+              <td class="text-nowrap">{{ c.occupation || 'Não informado' }}</td>
+              <td class="text-nowrap">{{ formatDateBR(c.birthDate) }}</td>
+              <td class="text-nowrap">{{ c.emergency ? 'Sim' : 'Não' }}</td>
+              <td>
+                <div class="d-flex justify-content-center gap-2">
+                  <button class="btn btn-sm btn-primary d-flex align-items-center gap-1"
+                          (click)="onClickUpdate(c)" type="button">
+                    <i class="bi bi-pencil-fill"></i> Editar
+                  </button>
+                  <button class="btn btn-sm btn-danger d-flex align-items-center gap-1"
+                          (click)="delete(c)" type="button">
+                    <i class="bi bi-trash-fill"></i> Excluir
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

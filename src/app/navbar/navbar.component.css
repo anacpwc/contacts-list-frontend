@@ -1,0 +1,10 @@
+/* Bordas arredondadas */
+.navbar {
+  border-radius: 0.5rem;
+}
+
+/* Nome da navbar */
+.navbar-brand {
+  font-weight: 600;
+}
+

@@ -1,0 +1,70 @@
+/* Fundo branco para o card */
+.bg-white {
+  background-color: #ffffff !important;
+}
+
+/* Sombra suave */
+.shadow-sm {
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+}
+
+/* Borda cinza clara */
+.border {
+  border: 1px solid #dee2e6 !important;
+}
+
+/* Borda arredondada */
+.rounded {
+  border-radius: 0.5rem !important;
+}
+
+/* Títulos com cor cinza escuro e fonte em negrito */
+h1, h2 {
+  color: #495057;
+  font-weight: 600;
+}
+
+/* Parágrafos com cor cinza médio e tamanho padrão */
+p {
+  color: #6c757d;
+  font-size: 1rem;
+}
+
+/* Botões com transição suave de cor, fundo e borda */
+.btn {
+  transition: background 0.2s ease, color 0.2s ease, border 0.2s ease;
+  font-weight: 500;
+}
+
+/* Botão principal */
+.btn-dark {
+  background-color: #343a40;
+  border-color: #343a40;
+  color: #ffffff;
+}
+.btn-dark:hover {
+  background-color: #23272b; 
+  border-color: #1d2124;
+}
+
+/* Botão contornado escuro */
+.btn-outline-dark {
+  color: #343a40;
+  border-color: #343a40;
+}
+.btn-outline-dark:hover {
+  background-color: #343a40;
+  color: #ffffff;
+}
+
+/* Botão contornado cinza secundário */
+.btn-outline-secondary {
+  color: #6c757d;
+  border-color: #6c757d;
+}
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: #ffffff;
+}
+
+
