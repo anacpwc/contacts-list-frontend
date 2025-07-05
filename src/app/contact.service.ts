@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ContactService {
 
-  apiUrl = "http://localhost:8080/contacts";
+  apiUrl = "https://contactslist.duckdns.org/contacts";
 
   constructor(private http: HttpClient) { }
 
