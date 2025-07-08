@@ -4,23 +4,21 @@
     <a routerLink="/home"
        class="btn btn-outline-secondary btn-sm align-items-center gap-1 px-2 shadow-sm"
        style="display: inline-flex;">
-      <i class="bi bi-arrow-left"></i>⇦ Voltar para o Início
+      <i class="bi bi-arrow-left"></i> ⇦ Voltar para o Início
     </a>
   </div>
- 
+
   <div class="mb-3">
     <a routerLink="/new-contact"
        class="btn btn-outline-secondary btn-sm align-items-center gap-1 px-2 shadow-sm"
        style="display: inline-flex;">
-      <i class="bi bi-arrow-left"></i>Adicionar Contato
+      <i class="bi bi-plus"></i> Adicionar Contato
     </a>
   </div>
 
   <!-- Filtro de categoria -->
   <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
-    <!-- Label do filtro -->
     <label for="categoryFilter" class="form-label fw-semibold mb-0">Categoria:</label>
-    <!-- Select para escolher a categoria -->
     <select id="categoryFilter"
             class="form-select form-select-sm w-auto shadow-sm border-0"
             #category
@@ -31,16 +29,15 @@
       <option value="Faculdade">Faculdade</option>
       <option value="Outro">Outro</option>
     </select>
-    <!-- Botão para limpar o filtro -->
     <button class="btn btn-sm btn-light border shadow-sm"
             (click)="onCategoryChange('')">
       Limpar filtro
     </button>
   </div>
 
-  <!-- Tabela responsiva de contatos -->
-  <div class="table-responsive rounded-3 overflow-hidden shadow-sm">
-    <table class="table align-middle mb-0">
+  <!-- TABELA PARA DESKTOP E TABLET -->
+  <div class="table-responsive rounded-3 overflow-hidden shadow-sm d-none d-md-block">
+    <table class="table table-sm align-middle mb-0 text-nowrap">
       <thead>
         <tr>
           <th>Nome</th>
@@ -55,13 +52,11 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Loop para exibir cada contato filtrado -->
         <tr *ngFor="let c of filteredContacts">
           <td>{{ c.name || 'Não informado' }}</td>
           <td>{{ formatPhone(c.number) || 'Não informado' }}</td>
           <td>{{ c.email || 'Não informado' }}</td>
           <td>{{ c.category || 'Não informado' }}</td>
-          <!-- Exibe estrela -->
           <td class="fs-5 text-center">
             <span [class.text-warning]="c.isFavorite"
                   [class.text-muted]="!c.isFavorite">
@@ -75,6 +70,28 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <!-- CARDS PARA CELULAR -->
+  <div class="d-block d-md-none">
+    <div *ngFor="let c of filteredContacts" class="card mb-2 shadow-sm">
+      <div class="card-body p-2">
+        <h6 class="fw-bold mb-1">{{ c.name || 'Não informado' }}</h6>
+        <div class="small mb-1"><strong>Número:</strong> {{ formatPhone(c.number) || 'Não informado' }}</div>
+        <div class="small mb-1"><strong>Email:</strong> {{ c.email || 'Não informado' }}</div>
+        <div class="small mb-1"><strong>Categoria:</strong> {{ c.category || 'Não informado' }}</div>
+        <div class="small mb-1">
+          <strong>Favorito:</strong>
+          <span [class.text-warning]="c.isFavorite" [class.text-muted]="!c.isFavorite">
+            {{ c.isFavorite ? '★' : '☆' }}
+          </span>
+        </div>
+        <div class="small mb-1"><strong>Cidade:</strong> {{ c.city || 'Não informado' }}</div>
+        <div class="small mb-1"><strong>Ocupação:</strong> {{ c.occupation || 'Não informado' }}</div>
+        <div class="small mb-1"><strong>Data de Nascimento:</strong> {{ formatDateBR(c.birthDate) }}</div>
+        <div class="small"><strong>Contato de Emergência:</strong> {{ c.emergency ? 'Sim' : 'Não' }}</div>
+      </div>
+    </div>
   </div>
 
 </div>
